@@ -10,34 +10,44 @@ function Insert_Number(number)
 function Insert_Symbol(symbol)
 {
 
+    // A condição não está funcionando.
+
     /*var valor = document.getElementById("calculation").innerHTML;
 
-    if(valor == "")
-    {
-
-
-
-    }
-
-    else
+    if(valor)
     {
 
         if(valor.substring(valor.length, 0) == "+" || valor.substring(valor.length, 0) == "-" 
         || valor.substring(valor.length, 0) == "x" || valor.substring(valor.length, 0) == "/")
         {
 
+            if(valor.substring(valor.length - 1, 0) == "+" || valor.substring(valor.length - 1, 0) == "-" 
+            || valor.substring(valor.length - 1, 0) == "x" || valor.substring(valor.length - 1, 0) == "/")
+            {
 
+                console.log("Um símbolo já foi adicionado! Tente um número.");
+
+            }
 
         }
 
         else
         {
 
-            console.log("Adicionando a operação: " + symbol);
+            console.log("Adicionando a operação/símbolo: " + symbol);
 
             document.getElementById("calculation").innerHTML += symbol;
 
         }
+
+    }
+
+    else
+    {
+
+        console.log("Erro!");
+
+        alert("Erro!");
 
     }*/
 
@@ -52,6 +62,8 @@ function Remove()
 
     var valor = document.getElementById("calculation").innerHTML;
 
+    console.log("Removendo um campo.");
+
     document.getElementById("calculation").innerHTML = valor.substring(0, valor.length - 1);
 
 }
@@ -59,7 +71,7 @@ function Remove()
 function Delete()
 {
 
-    console.log("Deletando toda a operação.");
+    console.log("Limpando o display.");
 
     document.getElementById("calculation").innerHTML = "";
 
@@ -68,16 +80,16 @@ function Delete()
 function Calculate()
 {
 
-    var operation = document.getElementById("calculation").innerHTML;
+    var operation = document.getElementById("calculation").innerHTML.replace("x", "*");
 
     if(operation)
     {
 
-        resultado = eval((operation.replace(",", ".").replace("x", "*")));
+        var resultado = eval(operation.replace(",", "."));
 
         document.getElementById("calculation").innerHTML = resultado;
 
-        console.log("Calculando... Resultado = " + resultado.replace(".", ","));
+        console.log("Calculando... Resultado = " + resultado);
 
     }
 
@@ -85,6 +97,8 @@ function Calculate()
     {
 
         console.log("Não foi possível efetuar o cálculo.");
+
+        alert("Erro! Não foi possível efetuar o cálculo.");
 
     }
 
