@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+    <head>
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="shortcut icon" href="Assets/Images/Favicon.png">
+
+        <link rel="stylesheet" type="text/css" href="Assets/CSS/Styles.css">
+
+        <script type="text/javascript" src="Assets/JS/Script.js">  </script>
+
+        <title> Calculadora </title>
+
+    </head>
+
+    <body>
+
+        <div id="container">
+
+            <h1 style="color: #FFA500;"> Calculadora Básica </h1>
+
+            <div id="calculadora">
+
+                <h2> Calculadora🍊 </h2>
+
+                <p id="calculation">  </p>
+
+                <table>
+
+                    <tr>
+
+                        <td> <button class="btn_calculadora" onclick="Delete()"> C </button> </td>
+                        <td> <button class="btn_calculadora" onclick="Remove()"> &lt; </button> </td>
+                        <td> <button class="btn_calculadora" onclick="Insert_Symbol('/')"> / </button> </td>
+                        <td> <button class="btn_calculadora" onclick="Insert_Symbol('*')"> x </button> </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td> <button class="btn_calculadora" onclick="Insert_Number('7')"> 7 </button> </td>
+                        <td> <button class="btn_calculadora" onclick="Insert_Number('8')"> 8 </button> </td>
+                        <td> <button class="btn_calculadora" onclick="Insert_Number('9')"> 9 </button> </td>
+                        <td> <button class="btn_calculadora" onclick="Insert_Symbol('-')"> - </button> </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td> <button class="btn_calculadora" onclick="Insert_Number('4')"> 4 </button> </td>
+                        <td> <button class="btn_calculadora" onclick="Insert_Number('5')"> 5 </button> </td>
+                        <td> <button class="btn_calculadora" onclick="Insert_Number('6')"> 6 </button> </td>
+                        <td> <button class="btn_calculadora"  onclick="Insert_Symbol('+')"> + </button> </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td> <button class="btn_calculadora" onclick="Insert_Number('1')"> 1 </button> </td>
+                        <td> <button class="btn_calculadora" onclick="Insert_Number('2')"> 2 </button> </td>
+                        <td> <button class="btn_calculadora" onclick="Insert_Number('3')"> 3 </button> </td>
+                        <td rowspan="2"> <button class="btn_calculadora" style="height: 107px;" onclick="Calculate()"> = </button> </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td colspan="2"> <button class="btn_calculadora" style="width: 108px;" onclick="Insert_Number('0')"> 0 </button> </td>
+                        <td> <button class="btn_calculadora"  onclick="Insert_Symbol(',')"> , </button> </td>
+
+                    </tr>
+
+                </table>
+                
+            </div>
+
+        </div>
+        
+    </body>
+
+</html>
