@@ -73,11 +73,11 @@ function Calculate()
     if(operation)
     {
 
-        resultado = eval(operation);
+        resultado = eval((operation.replace(",", ".").replace("x", "*")));
 
         document.getElementById("calculation").innerHTML = resultado;
 
-        console.log("Calculando... Resultado = " + resultado);
+        console.log("Calculando... Resultado = " + resultado.replace(".", ","));
 
     }
 
