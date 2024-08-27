@@ -1,0 +1,113 @@
+/* Recursos: */
+
+@import url("https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css");
+
+/* Constantes: */
+
+html:root {
+
+    --main-color: #000000;
+    --neutral-color: #FFFFFF;
+
+}
+
+.dark_theme:root {
+
+    --main-color: #FFFFFF;
+    --neutral-color: #000000;
+
+}
+
+/* Estilos: */
+
+* {
+
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    transition: 0.75s;
+
+}
+
+body {
+
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--neutral-color);
+    overflow: hidden;
+
+}
+
+#calculator {
+
+    height: auto;
+    width: auto;
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: repeat(4, 50px);
+    grid-template-rows: repeat(6, 50px);
+    gap: 10px;
+    background-color: transparent;
+    border: 2px solid var(--main-color);
+    padding: 10px;
+    overflow: hidden;
+
+}
+
+#calculator #display, #calculator button {
+
+    border: 1px solid var(--main-color);
+
+}
+
+#calculator #display {
+
+    max-width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    grid-column: 2 / span 3;
+    font-size: 20px;
+    font-weight: bolder;
+    color: var(--main-color);
+    padding: 0px 10px 0px 10px;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+}
+
+#calculator button, #calculator:hover button:not(:hover) {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    font-size: 17px;
+    font-weight: bold;
+    color: var(--main-color);
+    cursor: pointer;
+
+}
+
+#calculator button:hover, #calculator button:nth-child(4), #calculator button:nth-child(5), #calculator button:nth-child(23) {
+
+    background-color: var(--main-color);
+    color: var(--neutral-color);
+
+}
+
+#calculator #light {
+
+    display: none;
+
+}
+
+#calculator #dark {
+
+    display: flex;
+
+}
