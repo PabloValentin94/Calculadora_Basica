@@ -112,7 +112,7 @@ document.getElementById("calculate").addEventListener("click", () => {
         else
         {
 
-            alert("Uma operação matemática não pode terminar com um símbolo matemático! Corrija a expessão.");
+            alert("Uma operação matemática não pode terminar com um símbolo matemático! Corrija a expressão antes de continuar.");
 
         }
 
