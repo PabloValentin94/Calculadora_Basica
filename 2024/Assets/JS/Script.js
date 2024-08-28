@@ -25,7 +25,7 @@ window.onload = () => {
 
     const botoes_calculadora = document.getElementById("calculator").querySelectorAll("button");
 
-    console.log(botoes_calculadora);
+    // console.log(botoes_calculadora);
 
     for(var i = 4; i < botoes_calculadora.length - 1; i++)
     {
@@ -33,19 +33,6 @@ window.onload = () => {
         const botao = botoes_calculadora[i];
 
         botao.addEventListener("click", () => {
-
-            /*var simbolo_repetido = false;
-
-            caracteres_especiais.forEach(elemento => {
-
-                if(elemento == ultimo_caractere_inserido)
-                {
-
-                    simbolo_repetido = true;
-
-                }
-
-            });*/
 
             ultimo_caractere_inserido = botao.innerText;
 
@@ -88,7 +75,13 @@ document.getElementById("backspace").addEventListener("click", () => {
     if(visor.innerText.length > 0)
     {
 
-        visor.innerText = visor.innerText.substring(0, visor.innerText.length - 1);
+        var qnt_caracteres_operacao = visor.innerText.length;
+
+        visor.innerText = visor.innerText.substring(0, qnt_caracteres_operacao - 1);
+
+        qnt_caracteres_operacao--;
+        
+        ultimo_caractere_inserido = visor.innerText.substring(qnt_caracteres_operacao - 1, qnt_caracteres_operacao);
 
     }
 
@@ -99,7 +92,29 @@ document.getElementById("calculate").addEventListener("click", () => {
     if(visor.innerText != "")
     {
 
-        visor.innerText = eval(visor.innerText.replace(",", "."));
+        if(!caracteres_especiais.includes(ultimo_caractere_inserido))
+        {
+
+            const expressao = visor.innerText;
+
+            const resultado = eval(visor.innerText.replace(",", "."));
+
+            visor.innerText = resultado.toString().replace(".", ",");
+
+            setTimeout(() => {
+
+                alert("Operação: " + expressao + ".\n\nResultado: " + resultado + ".");
+
+            }, 1000);
+
+        }
+
+        else
+        {
+
+            alert("Uma operação matemática não pode terminar com um símbolo matemático! Corrija a expessão.");
+
+        }
 
     }
 
