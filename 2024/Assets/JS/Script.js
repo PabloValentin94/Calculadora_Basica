@@ -1,6 +1,6 @@
 // Constantes e variáveis:
 
-const visor = document.getElementById("display");
+const visor_calculadora = document.getElementById("display");
 
 const botao_tema_claro = document.getElementById("light");
 
@@ -19,26 +19,114 @@ function Mudar_Tema()
 
 }
 
+function Verificar_Ultimo_Caractere()
+{
+
+    // Verificando se o último caractere da expressão matemática não é um número.
+
+    let permissao = true;
+
+    for(let j = 0; j < caracteres_especiais.length && permissao; j++)
+    {
+
+        if(caracteres_especiais[j] === ultimo_caractere_inserido)
+        {
+
+            permissao = false;
+
+        }
+
+    }
+
+    return permissao;
+
+}
+
+function Verificar_Repeticao_Caractere_Especial()
+{
+
+    // Verificando se há na expressão matemática caracteres inseridos de forma consecutiva, mas que não são números.
+
+    let repeticao = false;
+
+    const caracteres_visor_calculadora = visor_calculadora.innerText;
+
+    for(let k = 0; k < caracteres_visor_calculadora.length && !repeticao; k++)
+    {
+
+        if(k < caracteres_visor_calculadora.length - 1)
+        {
+
+            caracteres_especiais.forEach(primeiro_caractere_especial => {
+
+                if(caracteres_visor_calculadora[k] === primeiro_caractere_especial)
+                {
+    
+                    caracteres_especiais.forEach(segundo_caractere_especial => {
+    
+                        if(caracteres_visor_calculadora[k + 1] === segundo_caractere_especial)
+                        {
+    
+                            repeticao = true;
+    
+                        }
+    
+                    });
+    
+                }
+    
+            });
+
+        }
+
+    }
+
+    return repeticao;
+
+}
+
+function Validar_Expressao_Matematica()
+{
+
+    if(Verificar_Ultimo_Caractere() && !Verificar_Repeticao_Caractere_Especial())
+    {
+
+        return true;
+
+    }
+
+    else
+    {
+
+        return false;
+
+    }
+
+}
+
 // Eventos:
 
 window.onload = () => {
 
     const botoes_calculadora = document.getElementById("calculator").querySelectorAll("button");
 
-    // console.log(botoes_calculadora);
-
-    for(var i = 4; i < botoes_calculadora.length - 1; i++)
+    for(let i = 4; i < botoes_calculadora.length; i++)
     {
 
-        const botao = botoes_calculadora[i];
+        if(i !== 17)
+        {
 
-        botao.addEventListener("click", () => {
+            const botao = botoes_calculadora[i];
 
-            ultimo_caractere_inserido = botao.innerText;
+            botao.addEventListener("click", () => {
+    
+                ultimo_caractere_inserido = botao.innerText;
+    
+                visor_calculadora.innerText += ultimo_caractere_inserido;
+    
+            });
 
-            visor.innerText += botao.innerText;
-
-        });
+        }
 
     }
 
@@ -66,22 +154,34 @@ botao_tema_escuro.addEventListener("click", () => {
 
 document.getElementById("clear").addEventListener("click", () => {
 
-    visor.innerText = "";
+    ultimo_caractere_inserido = ""
+
+    visor_calculadora.innerText = ultimo_caractere_inserido;
 
 });
 
 document.getElementById("backspace").addEventListener("click", () => {
 
-    if(visor.innerText.length > 0)
+    if(visor_calculadora.innerText.length > 0)
     {
 
-        var qnt_caracteres_operacao = visor.innerText.length;
+        let qnt_caracteres_operacao = visor_calculadora.innerText.length - 1;
 
-        visor.innerText = visor.innerText.substring(0, qnt_caracteres_operacao - 1);
+        visor_calculadora.innerText = visor_calculadora.innerText.substring(0, qnt_caracteres_operacao);
 
-        qnt_caracteres_operacao--;
-        
-        ultimo_caractere_inserido = visor.innerText.substring(qnt_caracteres_operacao - 1, qnt_caracteres_operacao);
+        if(visor_calculadora.innerText.length === 0)
+        {
+
+            ultimo_caractere_inserido = "";
+
+        }
+
+        else
+        {
+
+            ultimo_caractere_inserido = visor_calculadora.innerText.substring(qnt_caracteres_operacao - 1);
+
+        }
 
     }
 
@@ -89,32 +189,34 @@ document.getElementById("backspace").addEventListener("click", () => {
 
 document.getElementById("calculate").addEventListener("click", () => {
 
-    if(visor.innerText != "")
+    if(visor_calculadora.innerText !== "")
     {
 
-        if(!caracteres_especiais.includes(ultimo_caractere_inserido))
+        if(Validar_Expressao_Matematica())
         {
 
-            const expressao = visor.innerText;
+            const resultado = eval(visor_calculadora.innerText.replace(",", ".")).toString().replace(".", ",");
 
-            const resultado = eval(visor.innerText.replace(",", "."));
+            visor_calculadora.innerText = resultado;
 
-            visor.innerText = resultado.toString().replace(".", ",");
-
-            setTimeout(() => {
-
-                alert("Operação: " + expressao + ".\n\nResultado: " + resultado + ".");
-
-            }, 1000);
+            ultimo_caractere_inserido = "";
 
         }
 
         else
         {
 
-            alert("Uma operação matemática não pode terminar com um símbolo matemático! Corrija a expressão antes de continuar.");
+            alert("Não foi possível realizar o cálculo da expressão! Certifique-se de que o último caractere é " +
+                  "um número e de que não há caracteres especiais consecutivos.");
 
         }
+
+    }
+
+    else
+    {
+
+        alert("Digite uma expressão matemática antes de prosseguir.");
 
     }
 
