@@ -122,6 +122,7 @@ body {
     justify-content: center;
     background-color: transparent;
     border: 1px solid var(--main-color);
+    border-radius: 50%;
     font-size: 17px;
     font-weight: bold;
     color: var(--main-color);
@@ -130,21 +131,9 @@ body {
 }
 
 #container #calculator button:hover, #container #calculator button:nth-child(4),
-#container #calculator button:nth-child(5), #container #calculator button:nth-child(19) {
+#container #calculator button:nth-child(5), #container #calculator button:nth-child(23) {
 
     background-color: var(--main-color);
     color: var(--neutral-color);
-
-}
-
-#container #calculator button:nth-child(19) {
-
-    grid-row: span 2;
-
-}
-
-#container #calculator button:nth-child(20) {
-
-    grid-column: span 2;
 
 }

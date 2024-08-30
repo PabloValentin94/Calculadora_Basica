@@ -8,7 +8,9 @@ const botao_tema_escuro = document.getElementById("dark");
 
 var ultimo_caractere_inserido = "";
 
-const caracteres_especiais = ["+", "-", "*", "/", ","];
+const caracteres_especiais = ["+", "-", "*", "/", ",", "(", ")"];
+
+var parenteses_abertos = 0;
 
 // Funções:
 
@@ -38,6 +40,13 @@ function Verificar_Ultimo_Caractere()
 
     }
 
+    if(ultimo_caractere_inserido === caracteres_especiais[6] && parenteses_abertos === 0)
+    {
+
+        permissao = true;
+
+    }
+
     return permissao;
 
 }
@@ -45,39 +54,34 @@ function Verificar_Ultimo_Caractere()
 function Verificar_Repeticao_Caractere_Especial()
 {
 
-    // Verificando se há na expressão matemática caracteres inseridos de forma consecutiva, mas que não são números.
+    // Verificando se há na expressão matemática caracteres especiais inseridos de forma consecutiva.
 
     let repeticao = false;
 
     const caracteres_visor_calculadora = visor_calculadora.innerText;
 
-    for(let k = 0; k < caracteres_visor_calculadora.length && !repeticao; k++)
+    for(let k = 0; k < caracteres_visor_calculadora.length - 1 && !repeticao; k++)
     {
 
-        if(k < caracteres_visor_calculadora.length - 1)
-        {
+        caracteres_especiais.forEach(primeiro_caractere_especial => {
 
-            caracteres_especiais.forEach(primeiro_caractere_especial => {
+            if(caracteres_visor_calculadora[k] === primeiro_caractere_especial && primeiro_caractere_especial !== caracteres_especiais[6])
+            {
 
-                if(caracteres_visor_calculadora[k] === primeiro_caractere_especial)
-                {
-    
-                    caracteres_especiais.forEach(segundo_caractere_especial => {
-    
-                        if(caracteres_visor_calculadora[k + 1] === segundo_caractere_especial)
-                        {
-    
-                            repeticao = true;
-    
-                        }
-    
-                    });
-    
-                }
-    
-            });
+                caracteres_especiais.forEach(segundo_caractere_especial => {
 
-        }
+                    if(caracteres_visor_calculadora[k + 1] === segundo_caractere_especial && segundo_caractere_especial !== caracteres_especiais[5])
+                    {
+
+                        repeticao = true;
+
+                    }
+
+                });
+
+            }
+
+        });
 
     }
 
@@ -110,23 +114,46 @@ window.onload = () => {
 
     const botoes_calculadora = document.getElementById("calculator").querySelectorAll("button");
 
-    for(let i = 4; i < botoes_calculadora.length; i++)
+    for(let i = 4; i < botoes_calculadora.length - 1; i++)
     {
 
-        if(i !== 17)
-        {
+        const botao = botoes_calculadora[i];
 
-            const botao = botoes_calculadora[i];
+        botao.addEventListener("click", () => {
 
-            botao.addEventListener("click", () => {
+            const caractere_digitado = botao.innerText;
+
+            if(parenteses_abertos - 1 < 0 && caractere_digitado === ")")
+            {
+
+                alert("Certifique-se de abrir um parênteses antes de inserir um fechamento!");
+
+            }
+
+            else
+            {
+
+                ultimo_caractere_inserido = caractere_digitado;
     
-                ultimo_caractere_inserido = botao.innerText;
-    
+                if(ultimo_caractere_inserido === caracteres_especiais[5])
+                {
+
+                    parenteses_abertos++;
+
+                }
+
+                else if(ultimo_caractere_inserido === caracteres_especiais[6])
+                {
+
+                    parenteses_abertos--;
+
+                }
+
                 visor_calculadora.innerText += ultimo_caractere_inserido;
-    
-            });
 
-        }
+            }
+
+        });
 
     }
 
@@ -156,6 +183,8 @@ document.getElementById("clear").addEventListener("click", () => {
 
     ultimo_caractere_inserido = ""
 
+    parenteses_abertos = 0;
+
     visor_calculadora.innerText = ultimo_caractere_inserido;
 
 });
@@ -174,10 +203,26 @@ document.getElementById("backspace").addEventListener("click", () => {
 
             ultimo_caractere_inserido = "";
 
+            parenteses_abertos = 0;
+
         }
 
         else
         {
+
+            if(ultimo_caractere_inserido === caracteres_especiais[5])
+            {
+
+                parenteses_abertos--;
+
+            }
+
+            else if(ultimo_caractere_inserido === caracteres_especiais[6])
+            {
+
+                parenteses_abertos++;
+
+            }
 
             ultimo_caractere_inserido = visor_calculadora.innerText.substring(qnt_caracteres_operacao - 1);
 
@@ -192,10 +237,17 @@ document.getElementById("calculate").addEventListener("click", () => {
     if(visor_calculadora.innerText !== "")
     {
 
-        if(Validar_Expressao_Matematica())
+        if(parenteses_abertos > 0)
         {
 
-            const resultado = eval(visor_calculadora.innerText.replace(",", ".")).toString().replace(".", ",");
+            alert("Há uma abertura de parêntese sem fechamento! Corrija a expressão matemática.");
+
+        }
+
+        else if(Validar_Expressao_Matematica())
+        {
+
+            const resultado = eval(visor_calculadora.innerText.replace(",", ".")).toFixed(2).toString().replace(".", ",");
 
             visor_calculadora.innerText = resultado;
 
@@ -206,8 +258,10 @@ document.getElementById("calculate").addEventListener("click", () => {
         else
         {
 
-            alert("Não foi possível realizar o cálculo da expressão! Certifique-se de que o último caractere é " +
-                  "um número e de que não há caracteres especiais consecutivos.");
+            alert("Não foi possível realizar o cálculo da expressão! Possíveis causas:\n\n" +
+                  "- O último caractere da expressão não é um número;\n\n" +
+                  "- Há caracteres especiais consecutivos na expressão;\n\n" +
+                  "- Há na expressão algum parênteses sem nenhuma expressão interna.\n\n");
 
         }
 
